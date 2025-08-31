@@ -1,108 +1,124 @@
-# zhangzhiruo.github.io
-Multi-Modal Fake News Detection (多模态真假新闻识别)
-📌 项目简介
-本项目旨在构建一个多模态（文本 + 图像）的真假新闻识别模型，通过融合文本和图像特征，提升对新闻真实性的判断准确率。项目使用 PyTorch 框架，结合预训练的 BERT 和 ResNet-18 模型进行特征提取，并设计了自定义的特征融合与分类模块。
-
-🗂️ 文件结构
-text
-.
-├── build_dataset.py          # 多模态数据集加载与预处理
-├── build_model_v5_0.py      # 模型结构定义（文本/图像编码器、融合模块、分类器）
-├── run.py                   # 主训练脚本
-├── trainer.py               # 训练器类封装
-├── test.py                  # 测试脚本
-├── utils.py                 # 工具函数（collate_fn、早停、可视化等）
-├── requirements.txt         # 依赖包列表（需自行补充）
-└── README.md
-🛠️ 环境依赖
-建议使用 Python 3.8+，并安装以下依赖：
-
-bash
-pip install torch torchvision transformers pandas pillow scikit-learn matplotlib
-🚀 快速开始
-1. 数据准备
-将数据集按如下格式组织：
+## 📁 项目结构
 
 text
-dataset/
-├── train.csv
-├── val.csv
-├── test.csv
-└── images/
-    ├── image1.jpg
-    ├── image2.jpg
-    └── ...
-CSV 文件中应包含以下列：
 
-text: 新闻文本
+```
+根目录/
+│
+├── build_dataset.py          # 多模态数据集定义与加载
+├── build_model_v5_0.py       # 模型结构定义
+├── run.py                    # 主训练脚本
+├── trainer.py                # 训练器封装
+├── test.py                   # 测试脚本
+├── utils.py                  # 工具函数（collate_fn、早停策略等）
+├── save/                     # 模型保存目录
+│   └── best_model_v5.pth     # 预训练模型权重
+├── dataset/                  # 数据集目录
+│   └── test_dataset/         # 测试集数据与图像
+└── figs/                     # 训练曲线与结果可视化保存目录
+```
 
-images_list: 图像文件名，多个图像用 \t 分隔
+------
 
-label: 标签（0=假新闻，1=真新闻）
+## 🚀 快速开始
 
-2. 训练模型
+### 1. 训练模型
+
+使用以下命令启动训练：
+
 bash
-python run.py \
-  --train_csv path/to/train.csv \
-  --img_dir path/to/images \
-  --val_csv path/to/val.csv \
-  --batch_size 16 \
-  --epochs 50
-3. 测试模型
+
+```
+python run.py
+```
+
+可通过参数调整批次大小、学习率等，具体请参考 `run.py` 中的参数设置。
+
+### 2. 测试模型
+
+使用以下命令对测试集进行预测：
+
 bash
-python test.py \
-  --ckp path/to/best_model.pth \
-  --data path/to/test_folder \
-  --batch 8
-🧠 模型架构
-文本编码器（TextEncoderV5）
-基于 BERT 提取文本特征
 
-使用多头注意力增强表示
+```
+python test.py --ckp save/best_model_v5.pth --data dataset/test_dataset --batch 4 --numwork 4
+```
 
-图像编码器（ImageEncoderV5）
-使用 ResNet-18 提取图像特征
+预测结果将保存在测试集的 CSV 文件中，新增一列 `target` 表示预测标签。
 
-引入 SE（Squeeze-and-Excitation）模块增强通道注意力
+------
 
-特征融合模块（FeatureFusionV5）
-动态加权融合文本与图像特征
+## 🧠 模型架构
 
-使用全连接层进行降维与非线性变换
+本项目采用多模态融合架构，主要包括以下模块：
 
-分类器（ImprovedClassifier）
-两层全连接网络 + Dropout
+- **文本编码器**：基于 BERT 提取文本特征
 
-输出二分类结果
+- **图像编码器**：基于 ResNet18 + SE 注意力机制提取图像特征
 
-📊 实验结果
-训练过程中记录以下指标：
+- **特征融合模块**：自适应加权融合文本与图像特征
 
-准确率（Accuracy）
+- **分类器**：全连接层输出最终分类结果
 
-F1-score
+  ![image-20250831222555631](C:\Users\张芷若\AppData\Roaming\Typora\typora-user-images\image-20250831222555631.png)
 
-损失（Loss）
+![image-20250831222531701](C:\Users\张芷若\AppData\Roaming\Typora\typora-user-images\image-20250831222531701.png)
 
-混淆矩阵
+------
 
-可通过 trainer.py 中的可视化工具绘制训练曲线。
+## 📊 数据预处理
 
-📈 可视化示例
-项目中支持以下可视化：
+### 文本处理
 
-标签分布饼图
+- 使用 BERT Tokenizer 进行分词与编码
+- 最大长度设置为 256，不足则填充，过长则截断
 
-训练/验证指标曲线（Loss、Accuracy、F1）
+### 图像处理
 
-混淆矩阵、ROC 曲线、PR 曲线（测试阶段）
+- 统一缩放至 224×224
+- 转换为 Tensor 并归一化
+- 支持多图输入，自动填充或补零
 
-🙌 致谢
-本项目使用了以下开源模型：
+### 标签分布
 
-BERT
+真假新闻占比
 
-ResNet-18
+![image-20250831221918813](C:\Users\张芷若\AppData\Roaming\Typora\typora-user-images\image-20250831221918813.png)
 
-📜 许可证
-本项目仅用于学术研究，请遵守数据使用许可和模型版权声明。
+------
+
+## 📈 训练与验证曲线
+
+训练过程中记录 Loss、Accuracy 和 F1 Score，并可视化如下：
+
+![image-20250831222044261](C:\Users\张芷若\AppData\Roaming\Typora\typora-user-images\image-20250831222044261.png)
+
+
+![image-20250831222112509](C:\Users\张芷若\AppData\Roaming\Typora\typora-user-images\image-20250831222112509.png)
+
+
+------
+
+## ✅ 测试结果
+
+测试脚本支持输出以下评估结果：
+
+- 混淆矩阵
+- ROC 曲线
+- PR 曲线
+
+可通过取消注释 `test.py` 中对应函数调用来生成图像。
+
+------
+
+## 🧩 可扩展性
+
+- 可替换其他预训练文本模型（如 RoBERTa、ERNIE）
+- 可替换其他图像编码器（如 ViT、EfficientNet）
+- 支持自定义融合策略（如 Cross-Attention、Co-Attention）
+
+------
+
+## 📄 许可证
+
+本项目仅用于学术研究，如需商用请联系作者。
