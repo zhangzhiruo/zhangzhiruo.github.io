@@ -60,9 +60,9 @@ python test.py --ckp save/best_model_v5.pth --data dataset/test_dataset --batch 
 
 - **分类器**：全连接层输出最终分类结果
 
-  ![image-20250831222555631](C:\Users\张芷若\AppData\Roaming\Typora\typora-user-images\image-20250831222555631.png)
+![模型结构图](jie-gou-tu.png)
 
-![image-20250831222531701](C:\Users\张芷若\AppData\Roaming\Typora\typora-user-images\image-20250831222531701.png)
+![整体流程图](liu_cheng_tu.png)
 
 ------
 
@@ -83,7 +83,7 @@ python test.py --ckp save/best_model_v5.pth --data dataset/test_dataset --batch 
 
 真假新闻占比
 
-![image-20250831221918813](C:\Users\张芷若\AppData\Roaming\Typora\typora-user-images\image-20250831221918813.png)
+![真假新闻占比](图片1.png)
 
 ------
 
@@ -91,11 +91,8 @@ python test.py --ckp save/best_model_v5.pth --data dataset/test_dataset --batch 
 
 训练过程中记录 Loss、Accuracy 和 F1 Score，并可视化如下：
 
-![image-20250831222044261](C:\Users\张芷若\AppData\Roaming\Typora\typora-user-images\image-20250831222044261.png)
-
-
-![image-20250831222112509](C:\Users\张芷若\AppData\Roaming\Typora\typora-user-images\image-20250831222112509.png)
-
+![描述文字](图片2.jpg)
+![描述文字](图片3.jpg)
 
 ------
 
@@ -120,5 +117,6 @@ python test.py --ckp save/best_model_v5.pth --data dataset/test_dataset --batch 
 ------
 
 ## 📄 许可证
+
 
 本项目仅用于学术研究，如需商用请联系作者。
