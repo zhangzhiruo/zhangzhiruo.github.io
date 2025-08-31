@@ -16,6 +16,31 @@ text
 ├── dataset/                  # 数据集目录
 │   └── test_dataset/         # 测试集数据与图像
 └── figs/                     # 训练曲线与结果可视化保存目录
+
+
+项目根目录/
+├── .github/workflows/    # GitHub Actions 工作流配置
+│   └── static.yml        # 静态页面部署工作流
+├── src/                  # 源代码目录（主要代码存放位置）
+│   ├── build_dataset.py          # 多模态数据集定义与加载
+│   ├── build_model_v5_0.py       # 模型结构定义，最终模型，其余几个模型可不看
+│   ├── build_model_v5_2.py       # 模型结构定义
+│   ├── build_model_v6_0.py       # 模型结构定义
+│   ├── build_model_v7_0.py       # 模型结构定义
+│   ├── run.py                    # 主训练脚本
+│   ├── trainer.py                # 训练器封装
+│   ├── test.py                   # 测试脚本
+│   └── utils.py                  # 工具函数
+├── .gitignore           # Git忽略文件配置
+├── LICENSE              # MIT开源许可证
+├── README.md            # 项目说明文件
+├── index.html           # GitHub Pages主页
+├── jie-gou-tu.png       # 项目结构图
+├── liu_cheng_tu.png     # 项目流程图
+├── 图片1.png            # 示例图片1
+├── 图片2.jpg            # 示例图片2
+└── 图片3.jpg            # 示例图片3
+
 ```
 
 ------
@@ -120,3 +145,4 @@ python test.py --ckp save/best_model_v5.pth --data dataset/test_dataset --batch 
 
 
 本项目仅用于学术研究，如需商用请联系作者。
+
