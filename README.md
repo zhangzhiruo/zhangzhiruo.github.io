@@ -3,21 +3,6 @@
 text
 
 ```
-根目录/
-│
-├── build_dataset.py          # 多模态数据集定义与加载
-├── build_model_v5_0.py       # 模型结构定义
-├── run.py                    # 主训练脚本
-├── trainer.py                # 训练器封装
-├── test.py                   # 测试脚本
-├── utils.py                  # 工具函数（collate_fn、早停策略等）
-├── save/                     # 模型保存目录
-│   └── best_model_v5.pth     # 预训练模型权重
-├── dataset/                  # 数据集目录
-│   └── test_dataset/         # 测试集数据与图像
-└── figs/                     # 训练曲线与结果可视化保存目录
-
-
 项目根目录/
 ├── .github/workflows/    # GitHub Actions 工作流配置
 │   └── static.yml        # 静态页面部署工作流
@@ -145,4 +130,5 @@ python test.py --ckp save/best_model_v5.pth --data dataset/test_dataset --batch 
 
 
 本项目仅用于学术研究，如需商用请联系作者。
+
 
